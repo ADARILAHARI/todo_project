@@ -1,0 +1,135 @@
+{% extends "tasks/base.html" %}
+
+{% block content %}
+
+<div class="glass-card">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h2><i class="fa-solid fa-list-check"></i> My Tasks</h2>
+        <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+    </div>
+
+    <!-- ADD TASK FORM -->
+    <form method="POST" class="task-form">
+        {% csrf_token %}
+        <input
+            type="text"
+            name="title"
+            placeholder="Add new task..."
+            required
+        >
+        <button type="submit">Add</button>
+    </form>
+
+    <!-- TASK LIST -->
+    {% if tasks %}
+        <ul class="task-list">
+            {% for task in tasks %}
+            <li class="task-item">
+
+                <div class="task-left">
+                    <input
+                        type="checkbox"
+                        class="task-check"
+                        {% if task.completed %}checked{% endif %}
+                        onclick="window.location.href='{% url 'task_update' task.id %}'"
+                    >
+
+                    <span class="{% if task.completed %}task-done{% endif %}">
+                        {{ task.title }}
+                    </span>
+                </div>
+
+                <a href="{% url 'task_delete' task.id %}" class="delete-btn">
+                    <i class="fa-solid fa-trash"></i>
+                </a>
+
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="empty">No tasks yet 🚀</p>
+    {% endif %}
+
+</div>
+
+<style>
+.glass-card {
+    max-width: 500px;
+    margin: auto;
+    padding: 25px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logout-btn {
+    background: #ff4d4d;
+    padding: 6px 12px;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+}
+
+/* Form */
+.task-form {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.task-form input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+}
+
+.task-form button {
+    padding: 10px 15px;
+    border-radius: 10px;
+    background: #4caf50;
+    color: white;
+}
+
+/* Task list */
+.task-list {
+    list-style: none;
+    padding: 0;
+}
+
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.2);
+    margin-bottom: 10px;
+}
+
+.task-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.delete-btn {
+    color: #ff4d4d;
+}
+
+.empty {
+    text-align: center;
+    opacity: 0.8;
+}
+</style>
+
+{% endblock %}

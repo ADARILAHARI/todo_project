@@ -1,0 +1,49 @@
+{% extends 'tasks/base.html' %}
+{% block content %}
+
+<div class="glass-card col-md-4 mx-auto text-white">
+
+    <h2 class="text-center mb-4">Create Account</h2>
+
+    <form method="POST" novalidate>
+        {% csrf_token %}
+
+        <!-- Username -->
+        <div class="form-floating mb-3">
+            <input type="text" name="username" class="form-control" placeholder="Username" required>
+            <label>Username</label>
+        </div>
+
+        <!-- Email -->
+        <div class="form-floating mb-3">
+            <input type="email" name="email" class="form-control" placeholder="Email" required>
+            <label>Email</label>
+        </div>
+
+        <!-- Password -->
+        <div class="form-floating mb-3 position-relative">
+            <input type="password" id="password1" name="password1" class="form-control" placeholder="Password" required>
+            <label>Password</label>
+            <i class="bi bi-eye-slash toggle-eye"
+               onclick="togglePassword('password1', this)"></i>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-floating mb-4 position-relative">
+            <input type="password" id="password2" name="password2" class="form-control" placeholder="Confirm Password" required>
+            <label>Confirm Password</label>
+            <i class="bi bi-eye-slash toggle-eye"
+               onclick="togglePassword('password2', this)"></i>
+        </div>
+
+        <button class="btn btn-light w-100 fw-bold">Register</button>
+    </form>
+
+    <p class="text-center mt-3">
+        Already have an account?
+        <a href="{% url 'login' %}" class="text-warning">Login</a>
+    </p>
+
+</div>
+
+{% endblock %}

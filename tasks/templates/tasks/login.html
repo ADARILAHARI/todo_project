@@ -1,0 +1,45 @@
+{% extends 'tasks/base.html' %}
+{% block content %}
+
+<div class="glass-card col-md-4 mx-auto text-white">
+
+    <h2 class="text-center mb-4">Login</h2>
+
+    <form method="POST" novalidate>
+        {% csrf_token %}
+
+        <!-- Username -->
+        <div class="form-floating mb-3">
+            <input type="text"
+                   name="username"
+                   class="form-control"
+                   placeholder="Username"
+                   required>
+            <label>Username</label>
+        </div>
+
+        <!-- Password with Eye Icon -->
+        <div class="form-floating mb-4 position-relative">
+            <input type="password"
+                   id="loginPassword"
+                   name="password"
+                   class="form-control"
+                   placeholder="Password"
+                   required>
+            <label>Password</label>
+
+            <i class="bi bi-eye-slash toggle-eye animated-eye"
+               onclick="togglePassword('loginPassword', this)"></i>
+        </div>
+
+        <button class="btn btn-light w-100 fw-bold">Login</button>
+    </form>
+
+    <p class="text-center mt-3">
+        Don’t have an account?
+        <a href="{% url 'register' %}" class="text-warning">Register</a>
+    </p>
+
+</div>
+
+{% endblock %}
