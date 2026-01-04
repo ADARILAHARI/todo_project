@@ -1,0 +1,27 @@
+{% extends "tasks/base.html" %}
+
+{% block content %}
+<div class="glass-card col-md-6 mx-auto">
+
+<h3 class="mb-4">📊 Task Analytics</h3>
+
+<div class="row text-center">
+    <div class="col-6 mb-3">Total<br><strong>{{ total }}</strong></div>
+    <div class="col-6 mb-3">Completed<br><st rong>{{ completed }}</strong></div>
+    <div class="col-6 mb-3">Pending<br><strong>{{ pending }}</strong></div>
+    <div class="col-6 mb-3 text-danger">Overdue<br><strong>{{ overdue }}</strong></div>
+</div>
+
+<hr>
+
+<h5>Priority Breakdown</h5>
+<ul>
+{% for p in priority_stats %}
+    <li>{{ p.priority }} → {{ p.count }}</li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'task_list' %}" class="btn btn-light mt-3 w-100">⬅ Back</a>
+
+</div>
+{% endblock %}

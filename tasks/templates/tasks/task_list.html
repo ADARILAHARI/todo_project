@@ -1,0 +1,184 @@
+{% extends "tasks/base.html" %}
+{% block content %}
+
+<style>
+/* Page animation */
+.page-enter {
+    animation: fadeSlide 0.6s ease-in-out;
+}
+
+@keyframes fadeSlide {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Todo Card */
+.todo-card {
+    max-width: 600px;
+    margin: auto;
+    background: linear-gradient(135deg, #ffffff25, #ffffff10);
+    backdrop-filter: blur(18px);
+    border-radius: 22px;
+    padding: 30px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+    color: white;
+}
+
+/* Header */
+.todo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.todo-header h2 {
+    font-weight: 600;
+}
+
+/* Logout */
+.logout-btn {
+    background: #ef4444;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+/* Add task */
+.add-task {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.add-task input {
+    flex: 1;
+    padding: 12px 18px;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+}
+
+.add-task button {
+    padding: 12px 20px;
+    border-radius: 30px;
+    background: #22c55e;
+    color: white;
+    border: none;
+}
+
+/* Progress bar */
+.progress-box {
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #22c55e, #4ade80);
+    width: 0%;
+    transition: width 0.6s ease;
+}
+
+.progress-text {
+    font-size: 14px;
+    margin-top: 6px;
+    text-align: right;
+}
+
+/* Tasks */
+.task {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.12);
+    padding: 12px 16px;
+    border-radius: 16px;
+    margin-bottom: 10px;
+}
+
+.task.done span {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.task-actions a {
+    color: white;
+    margin-left: 10px;
+    font-size: 14px;
+}
+</style>
+
+<div class="page-enter">
+
+    <div class="todo-card">
+
+        <!-- Header -->
+        <div class="todo-header">
+            <h2>📝 My Tasks</h2>
+            <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+        </div>
+
+        <!-- Add Task -->
+        <form method="POST" class="add-task">
+            {% csrf_token %}
+            <input type="text" name="title" placeholder="Add new task..." required>
+            <button type="submit">Add</button>
+        </form>
+
+        <!-- Progress -->
+        <div class="progress-box">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">0% completed</div>
+        </div>
+
+        <!-- Tasks -->
+        {% if tasks %}
+            {% for task in tasks %}
+                <div class="task {% if task.completed %}done{% endif %}"
+                     data-completed="{{ task.completed }}">
+                    <span>{{ task.title }}</span>
+
+                    <div class="task-actions">
+                        <a href="{% url 'task_update' task.id %}">✔</a>
+                        <a href="{% url 'task_delete' task.id %}">🗑</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p style="text-align:center; opacity:0.8;">No tasks yet 🚀</p>
+        {% endif %}
+
+    </div>
+
+</div>
+
+<script>
+/* Progress bar logic */
+const tasks = document.querySelectorAll('.task');
+const completed = document.querySelectorAll('.task.done').length;
+const total = tasks.length;
+
+let percent = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+document.getElementById("progressFill").style.width = percent + "%";
+document.getElementById("progressText").innerText = percent + "% completed";
+</script>
+
+{% endblock %}

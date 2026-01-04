@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | Todo App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background:
+                linear-gradient(135deg, rgba(99,102,241,0.85), rgba(168,85,247,0.85)),
+                url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .login-card {
+            width: 360px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(18px);
+            border-radius: 22px;
+            padding: 35px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.35);
+            color: white;
+        }
+
+        .login-card h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .login-card h2 i {
+            color: #a7f3d0;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 30px;
+            border: none;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 30px;
+            border: none;
+            background: linear-gradient(90deg, #22c55e, #16a34a);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            opacity: 0.95;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 14px;
+        }
+
+        .register-link a {
+            color: #a7f3d0;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <h2>
+            <i class="fas fa-check-circle"></i> Todo Login
+        </h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <input type="text" name="username" placeholder="Username" required>
+            </div>
+
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="login-btn">
+                Login
+            </button>
+        </form>
+
+        <div class="register-link">
+            Don’t have an account?
+            <a href="{% url 'register' %}">Register</a>
+        </div>
+    </div>
+
+</body>
+</html>
